@@ -16,5 +16,11 @@ namespace SimpleNeuralNetwork
         {
             InitializeComponent();
         }
+
+        private void btnXORexample_Click(object sender, EventArgs e)
+        {
+            frmXORexample frmXor = new frmXORexample();
+            frmXor.ShowDialog(this);
+        }
     }
 }

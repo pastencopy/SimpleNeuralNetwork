@@ -28,13 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.btnXORexample = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // btnXORexample
+            // 
+            this.btnXORexample.Location = new System.Drawing.Point(278, 12);
+            this.btnXORexample.Name = "btnXORexample";
+            this.btnXORexample.Size = new System.Drawing.Size(255, 47);
+            this.btnXORexample.TabIndex = 0;
+            this.btnXORexample.Text = "Show XOR Example";
+            this.btnXORexample.UseVisualStyleBackColor = true;
+            this.btnXORexample.Click += new System.EventHandler(this.btnXORexample_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(500, 188);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(193, 135);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnXORexample);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnXORexample;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -21,7 +21,7 @@ using System.Xml.Serialization;
 
 namespace NeuralNetworkLibrary
 {
-    class Matrix
+    public class Matrix
     {
         //행렬 데이터
         public int rows;

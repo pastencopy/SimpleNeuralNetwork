@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkLibrary
 {
-    class ActivationFunction
+    public class ActivationFunction
     {
         public Func<double, int, int, double> func;
         public Func<double, int, int, double> dfunc;
@@ -38,7 +38,7 @@ namespace NeuralNetworkLibrary
         );
     }
 
-    class NeuralNetwork
+    public class NeuralNetwork
     {
         public int input;
         public int hidden;
