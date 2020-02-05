@@ -11,13 +11,18 @@ namespace SimpleRocket
 {
     class Population
     {
-        public List<Rocket> population = new List<Rocket>();
+        Random rnd = new Random();
+
+        public List<Block> blocks = new List<Block>();
+        public List<Rocket> rockets = new List<Rocket>();
         public List<Rocket> matingPool = new List<Rocket>();
 
         public Vector2 start;
         public Vector2 target;
 
-        int generations;
+        public int generations;
+        public float maxFit;
+
         int dnaCount;
         int rocketCount;
         int lifeCycleCount;
@@ -26,43 +31,78 @@ namespace SimpleRocket
         int worldHeight;
 
 
-        public void Evaluate()
+
+        private float CalculateFitness(Rocket r)
+        {
+            float dist = Vector2.Distance(r.pos, target);
+
+            //normalize dist
+            float fitness = 1 / dist;
+
+            if (r.crashed == true)
+            {
+                fitness *= 0.01F;
+            }
+            if (r.success == true)
+            {
+                fitness *= 10.0F;
+            }
+            return fitness;
+        }
+
+        private void Evaluate()
         {
             float maxFit = 0;
-        }
-        public void Selection()
-        {
-            int count = this.rocketCount;
-
-            this.matingPool.Clear();
-
-            while (count >= 0)
+            float sumFit = 0;
+            for (int i = 0; i < this.rocketCount; i++)
             {
-                foreach (Rocket r in this.population)
-                {
-                    Console.WriteLine("{0}", r.fitness * this.rocketCount);
-                    for (int i = 0; i < (r.fitness * this.rocketCount); i++)
-                    {
-                        this.matingPool.Add(r);
-                        count--;
-                    }
-                }
+                this.rockets[i].fitness = CalculateFitness(this.rockets[i]);
+                sumFit += this.rockets[i].fitness;
+
+                if (this.rockets[i].fitness > maxFit)
+                    maxFit = this.rockets[i].fitness;
             }
 
+            this.maxFit = maxFit;
+
+            //Normalize Fitness
+            for (int i = 0; i < this.rocketCount; i++)
+            {
+                this.rockets[i].fitness /= sumFit;
+            }
+
+            this.matingPool.Clear();
+            for (int i = 0; i < this.rocketCount; i++)
+            {
+                int n = (int)(this.rockets[i].fitness * 100);
+                for (int j = 0; j < n; j++)
+                {
+                    this.matingPool.Add(this.rockets[i]);
+                }
+            }
+        }
+   
+        private void Selection()
+        {
+            List<Rocket> newRockets = new List<Rocket>();
+            int index = 0;
+            foreach (Rocket r in this.rockets)
+            {
+                DNA parentA = this.matingPool[rnd.Next(0, this.matingPool.Count)].dna;
+                DNA parentB = this.matingPool[rnd.Next(0, this.matingPool.Count)].dna;
+                DNA child = parentA.Crossover(parentB);
+                child.Mutate();
+                newRockets.Add(new Rocket(string.Format("{0}", index++), start.X, start.Y,child));
+            }
+            this.rockets = newRockets;
         }
 
         public void Reprodution()
         {
-            //Selection();
-
             generations++;
             this.lifeCycleCount = this.dnaCount;
-            this.population.Clear();
-
-            for (int i = 0; i < this.rocketCount; i++)
-            {
-                this.population.Add(new Rocket(string.Format("{0}",i), this.start.X, this.start.Y, this.dnaCount));
-            }
+            Evaluate();
+            Selection();
         }
 
         public Population(float targetX, float targetY,
@@ -84,21 +124,46 @@ namespace SimpleRocket
 
             for (int i = 0; i < this.rocketCount; i++)
             {
-                this.population.Add(new Rocket(string.Format("{0}",i),this.start.X, this.start.Y, this.dnaCount));
+                this.rockets.Add(new Rocket(string.Format("{0}",i),this.start.X, this.start.Y, this.dnaCount));
+            }
+        }
+
+        public void AddBlock(int x, int y, int width ,int height)
+        {
+            this.blocks.Add(new Block(x, y, width, height));
+        }
+        public void DeleteBlock(int x, int y, int width, int height)
+        {
+            if (this.blocks.Count == 0) return;
+
+            for (int i = this.blocks.Count -1 ; i >= 0; i--)
+            {
+                if (this.blocks[i].Collide(x,y,width,height) == true)
+                {
+                    this.blocks.RemoveAt(i);
+                }
             }
         }
 
         public void Run()
         {
-            foreach (Rocket r in population)
+            foreach (Rocket r in rockets)
             {
+                foreach (Block b in blocks)
+                {
+                    if (b.Collide(r) == true)
+                    {
+                        r.crashed = true;
+                        break;
+                    }
+                }
+
                 r.Run(this.target);
                 r.CheckBoundary(this.worldWidth, this.worldHeight);
             }
 
             if (lifeCycleCount-- == 0)
             {
-
                 Reprodution();
                 //다음세대 생성!!
             }
@@ -106,9 +171,13 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
-            foreach (Rocket r in population)
+            foreach (Rocket r in rockets)
             {
                 r.Draw(g);
+            }
+            foreach (Block b in blocks)
+            {
+                b.Draw(g);
             }
         }
     }

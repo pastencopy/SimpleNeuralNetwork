@@ -16,10 +16,9 @@ namespace SimpleRocket
         public DNA dna;
 
         public double size = 10;
-        public double fitness = 0.0; //피트니스 수치
+        public float fitness = 0.0F; //피트니스 수치
 
-        double maxSpeed = 30.0; //움직이는 속도 최대값
-        int maxForce = 5; //움직이는 가속도 최대값
+        double maxSpeed = 5.0; //움직이는 속도 최대값
 
         public Vector2 pos; //위치
         public Vector2 vel; //속도
@@ -27,6 +26,23 @@ namespace SimpleRocket
 
         public bool crashed = false;
         public bool success = false;
+
+        private void init(string name, float x, float y)
+        {
+            this.name = name;
+            this.pos.X = x;
+            this.pos.Y = y;
+        }
+        public Rocket(string name, float x, float y, int dnaCount)
+        {
+            this.init(name, x, y);
+            this.dna = new DNA(dnaCount);
+        }
+        public Rocket(string name, float x, float y, DNA dna)
+        {
+            this.init(name, x, y);
+            this.dna = dna;
+        }
 
         public void ApplyForce(Vector2 f)
         {
@@ -45,32 +61,19 @@ namespace SimpleRocket
                 this.success = true;
                 return;
             }
-            
+
+            this.vel += this.accel;
             //최대 속도 제한
-            if (this.vel.Length() <= maxSpeed)
+            if (this.vel.Length() > this.maxSpeed)
             {
-                this.vel += this.accel;
+                this.vel -= this.accel;
             }
+
             this.pos += this.vel;
 
             this.accel *= 0;
         }
 
-        private void CalculateFitness(Vector2 target)
-        {
-            float dist = Vector2.Distance(this.pos, target);
-
-            this.fitness = 1 / dist;
-
-            if (this.crashed == true)
-            {
-                this.fitness *= 0.01;
-            }
-            if (this.success == true)
-            {
-                this.fitness = 1;
-            }
-        }
 
         public void Run(Vector2 target)
         {
@@ -94,15 +97,6 @@ namespace SimpleRocket
                 this.crashed = true;
             }
 
-        }
-
-        public Rocket(string name, float x, float y, int dnaCount)
-        {
-            this.name = name;
-            this.pos.X = x;
-            this.pos.Y = y;
-
-            this.dna = new DNA(dnaCount, maxForce);
         }
 
         public void Draw(Graphics g)

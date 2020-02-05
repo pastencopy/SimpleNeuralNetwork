@@ -23,6 +23,7 @@ namespace NeuralNetworkLibrary
 {
     public class Matrix
     {
+        Random rnd = new Random();
         //행렬 데이터
         public int rows;
         public int cols;
@@ -155,11 +156,18 @@ namespace NeuralNetworkLibrary
         }
 
         public Matrix Randomize()
-        {
-            Random rnd = new Random();
+        {            
             return this.map(x => (rnd.NextDouble() * 2 - 1));
         }
 
+        /**  
+         *  Usage : map([Callback function])
+         *  Return : Matrix
+         * 
+         * 
+         *  Javascript Array.prototype.map() 을 필요에 맞게 별도로 구현      2020-02-03 Coded by GwangSu Lee 
+         *  
+         * */
         public Matrix map(Func<double, double> func)
         {
             for (int i = 0; i < this.rows; i++)
