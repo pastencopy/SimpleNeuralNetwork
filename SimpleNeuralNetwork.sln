@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleNeuralNetwork", "Simp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworkLibrary", "NeuralNetworkLibrary\NeuralNetworkLibrary.csproj", "{C534E9C7-DE45-48CD-A562-D5F3B20C820A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRocket", "SimpleRocket\SimpleRocket.csproj", "{EF886880-827C-4EBE-8965-B97187B1DCCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C534E9C7-DE45-48CD-A562-D5F3B20C820A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C534E9C7-DE45-48CD-A562-D5F3B20C820A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C534E9C7-DE45-48CD-A562-D5F3B20C820A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF886880-827C-4EBE-8965-B97187B1DCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF886880-827C-4EBE-8965-B97187B1DCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF886880-827C-4EBE-8965-B97187B1DCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF886880-827C-4EBE-8965-B97187B1DCCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace SimpleNeuralNetwork
+﻿namespace SimpleRocket
 {
     partial class Form1
     {
@@ -28,46 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnXORexample = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            this.picCanvas = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.tmrAnimated = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnXORexample
+            // picCanvas
             // 
-            this.btnXORexample.Location = new System.Drawing.Point(196, 12);
-            this.btnXORexample.Name = "btnXORexample";
-            this.btnXORexample.Size = new System.Drawing.Size(255, 47);
-            this.btnXORexample.TabIndex = 0;
-            this.btnXORexample.Text = "Show XOR Example";
-            this.btnXORexample.UseVisualStyleBackColor = true;
-            this.btnXORexample.Click += new System.EventHandler(this.btnXORexample_Click);
+            this.picCanvas.Location = new System.Drawing.Point(12, 12);
+            this.picCanvas.Name = "picCanvas";
+            this.picCanvas.Size = new System.Drawing.Size(551, 488);
+            this.picCanvas.TabIndex = 0;
+            this.picCanvas.TabStop = false;
+            this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(586, 55);
+            this.button1.Location = new System.Drawing.Point(605, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(193, 135);
+            this.button1.Size = new System.Drawing.Size(193, 43);
             this.button1.TabIndex = 1;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tmrAnimated
+            // 
+            this.tmrAnimated.Enabled = true;
+            this.tmrAnimated.Interval = 50;
+            this.tmrAnimated.Tick += new System.EventHandler(this.tmrAnimated_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(810, 543);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnXORexample);
+            this.Controls.Add(this.picCanvas);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnXORexample;
+        private System.Windows.Forms.PictureBox picCanvas;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer tmrAnimated;
     }
 }
 
