@@ -4,9 +4,13 @@ Simple NeuralNetwork for Study
 2020 Coded by GwangSu Lee
 
 
+
+
 공부하면서 만드는 간단한 신경망 네트워크 알고리즘입니다. 
 
 Visual Studio 2019 Community 버전에서 C#으로 구현되어 있습니다.
+
+
 
 
 
