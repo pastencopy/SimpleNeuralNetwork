@@ -18,7 +18,7 @@ namespace SimpleRocket
         public double size = 10;
         public float fitness = 0.0F; //피트니스 수치
 
-        double maxSpeed = 5.0; //움직이는 속도 최대값
+        double maxSpeed = 10.0; //움직이는 속도 최대값
 
         public Vector2 pos; //위치
         public Vector2 vel; //속도
@@ -101,6 +101,7 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
+            //g.DrawString(this.name, System.Drawing.SystemFonts.DefaultFont, Brushes.Blue, this.pos.X, this.pos.Y);
             g.DrawEllipse(Pens.Black, (float)this.pos.X, (float)this.pos.Y, (float)this.size, (float)this.size);
         }
 

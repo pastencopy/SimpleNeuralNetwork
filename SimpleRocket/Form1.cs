@@ -45,9 +45,6 @@ namespace SimpleRocket
             bStart = true;
         }
 
-        private void picCanvas_Paint(object sender, PaintEventArgs e)
-        {
-        }
 
         private void tmrAnimated_Tick(object sender, EventArgs e)
         {
@@ -57,28 +54,30 @@ namespace SimpleRocket
                 m_popul.Run();
             }
 
-
-            if (DateTime.Now.CompareTo(latestDrawTime.AddMilliseconds(50)) >= 0)
+            if (DateTime.Now.CompareTo(latestDrawTime.AddMilliseconds(15)) >= 0)
             {
                 latestDrawTime = DateTime.Now;
-
-                //Drawing Rockets
-                Graphics g = picCanvas.CreateGraphics();
-                g.Clear(Color.White);
-                m_popul.Draw(g);
-
-                //Drawing Target
-                for (int j = 0; j < 100; j++)
-                {
-                    int i = rnd.Next(0, 360);
-                    int d = rnd.Next(0, 10);
-                    g.DrawLine(Pens.Red, m_target.X, m_target.Y,
-                        m_target.X + (float)(d * Math.Sin(i * Math.PI / 180)),
-                        m_target.Y - (float)(d * Math.Cos(i * Math.PI / 180)));
-                }
-
-                this.Text = string.Format("{0}세대, Max Fit : {1}", m_popul.generations, m_popul.maxFit);
+                Draw();
             }
+        }
+
+        private void Draw()
+        {            
+            //Drawing Rockets
+            Graphics g = picCanvas.CreateGraphics();
+            g.Clear(Color.White);
+            m_popul.Draw(g);
+
+            //Drawing Target
+            for (int j = 0; j < 100; j++)
+            {
+                int i = rnd.Next(0, 360);
+                int d = rnd.Next(0, 10);
+                g.DrawLine(Pens.Red, m_target.X, m_target.Y,
+                    m_target.X + (float)(d * Math.Sin(i * Math.PI / 180)),
+                    m_target.Y - (float)(d * Math.Cos(i * Math.PI / 180)));
+            }
+            this.Text = string.Format("{0}세대, Max Fit : {1}", m_popul.generations, m_popul.maxFit);
         }
 
         private void picCanvas_MouseDown(object sender, MouseEventArgs e)

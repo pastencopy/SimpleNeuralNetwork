@@ -11,7 +11,7 @@ namespace SimpleRocket
 {
     class Population
     {
-        Random rnd = new Random();
+        private static Random rnd = new Random();
 
         public List<Block> blocks = new List<Block>();
         public List<Rocket> rockets = new List<Rocket>();
@@ -52,23 +52,22 @@ namespace SimpleRocket
 
         private void Evaluate()
         {
-            float maxFit = 0;
-            float sumFit = 0;
+            float maxOfFitness = 0;
+            float sumOffitness = 0;
+
             for (int i = 0; i < this.rocketCount; i++)
             {
                 this.rockets[i].fitness = CalculateFitness(this.rockets[i]);
-                sumFit += this.rockets[i].fitness;
-
-                if (this.rockets[i].fitness > maxFit)
-                    maxFit = this.rockets[i].fitness;
+                sumOffitness += this.rockets[i].fitness;
+                if (this.rockets[i].fitness > maxOfFitness)
+                    maxOfFitness = this.rockets[i].fitness;
             }
-
-            this.maxFit = maxFit;
+            this.maxFit = maxOfFitness;
 
             //Normalize Fitness
             for (int i = 0; i < this.rocketCount; i++)
             {
-                this.rockets[i].fitness /= sumFit;
+                this.rockets[i].fitness /= sumOffitness;
             }
 
             this.matingPool.Clear();
@@ -88,8 +87,8 @@ namespace SimpleRocket
             int index = 0;
             foreach (Rocket r in this.rockets)
             {
-                DNA parentA = this.matingPool[rnd.Next(0, this.matingPool.Count)].dna;
-                DNA parentB = this.matingPool[rnd.Next(0, this.matingPool.Count)].dna;
+                DNA parentA = this.matingPool[Population.rnd.Next(0, this.matingPool.Count)].dna;
+                DNA parentB = this.matingPool[Population.rnd.Next(0, this.matingPool.Count)].dna;
                 DNA child = parentA.Crossover(parentB);
                 child.Mutate();
                 newRockets.Add(new Rocket(string.Format("{0}", index++), start.X, start.Y,child));

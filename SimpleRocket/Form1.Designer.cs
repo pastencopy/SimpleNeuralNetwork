@@ -46,12 +46,11 @@
             // 
             // picCanvas
             // 
-            this.picCanvas.Location = new System.Drawing.Point(84, 21);
+            this.picCanvas.Location = new System.Drawing.Point(79, 12);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(355, 324);
+            this.picCanvas.Size = new System.Drawing.Size(405, 370);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
-            this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
             this.picCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCanvas_MouseDown);
             this.picCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCanvas_MouseUp);
             // 
@@ -109,7 +108,7 @@
             this.txtRockets.Name = "txtRockets";
             this.txtRockets.Size = new System.Drawing.Size(113, 21);
             this.txtRockets.TabIndex = 5;
-            this.txtRockets.Text = "100";
+            this.txtRockets.Text = "50";
             // 
             // txtDNA
             // 

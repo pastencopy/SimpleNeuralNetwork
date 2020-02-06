@@ -10,7 +10,7 @@ namespace SimpleRocket
 {
     class DNA
     {
-        private Random rnd = new Random();
+        private static Random rnd = new Random();
 
         private const int MAX_SPEED = 5;
 
@@ -36,7 +36,9 @@ namespace SimpleRocket
             Vector2[] newgenes = new Vector2[this.genes.Length];
 
             //렌덤의 중간값을 기준으로 파트너와 교차
-            int mid = rnd.Next(0, this.genes.Length);
+            int mid = DNA.rnd.Next(0, this.genes.Length);
+
+            Console.WriteLine(mid);
             for(int i = 0; i < this.genes.Length; i++)
             {
                 newgenes[i] = (i > mid) ? this.genes[i] : partner.genes[i];
@@ -48,8 +50,9 @@ namespace SimpleRocket
         {
             for(int i = 0; i < this.genes.Length; i++)
             {
+
                 // 1% 확률로 돌연변이
-                if (rnd.NextDouble() < 0.01)
+                if (DNA.rnd.NextDouble() < 0.01)
                 {
                     this.genes[i] = Vector2D.RandomizeVector2(MAX_SPEED);
                 }
