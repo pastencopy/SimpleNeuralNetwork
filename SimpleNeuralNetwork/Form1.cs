@@ -22,5 +22,12 @@ namespace SimpleNeuralNetwork
             frmXORexample frmXor = new frmXORexample();
             frmXor.ShowDialog(this);
         }
+
+        private void btnGuessWhat_Click(object sender, EventArgs e)
+        {
+            frmGuessWhat frmGuess = new frmGuessWhat();
+            frmGuess.ShowDialog(this);
+        }
+
     }
 }

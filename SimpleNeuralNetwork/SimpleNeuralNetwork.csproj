@@ -53,16 +53,26 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmGuessWhat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGuessWhat.Designer.cs">
+      <DependentUpon>frmGuessWhat.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmXORexample.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmXORexample.Designer.cs">
       <DependentUpon>frmXORexample.cs</DependentUpon>
     </Compile>
+    <Compile Include="MnistReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGuessWhat.resx">
+      <DependentUpon>frmGuessWhat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmXORexample.resx">
       <DependentUpon>frmXORexample.cs</DependentUpon>
