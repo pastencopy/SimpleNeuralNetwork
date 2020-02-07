@@ -62,7 +62,6 @@ namespace SimpleNeuralNetwork
         {
             bDrawing = false;
         }
-
         private void picCanvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

@@ -22,7 +22,7 @@ namespace SimpleRocket
         System.Drawing.Point m_MouseCapturePoint;
         bool bStart = false;
 
-        DateTime latestDrawTime;
+        Bitmap drawing;
 
         public Form1()
         {
@@ -37,7 +37,9 @@ namespace SimpleRocket
                 , picCanvas.Width, picCanvas.Height //Boundary
                 );
 
-            picCanvas.CreateGraphics().Clear(Color.White);
+
+            drawing = new Bitmap(picCanvas.Width, picCanvas.Height, picCanvas.CreateGraphics());
+            Graphics.FromImage(drawing).Clear(Color.White);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -50,22 +52,21 @@ namespace SimpleRocket
         {
             if (bStart == true)
             {
-                //Run
-                m_popul.Run();
+                for (int i = 0; i < trackBarTimer.Value; i++)
+                {
+                    m_popul.Run();
+                }
             }
 
-            if (DateTime.Now.CompareTo(latestDrawTime.AddMilliseconds(15)) >= 0)
-            {
-                latestDrawTime = DateTime.Now;
-                Draw();
-            }
+            Draw();
         }
 
         private void Draw()
-        {            
+        {
+            Graphics g = Graphics.FromImage(drawing);
+            Graphics.FromImage(drawing).Clear(Color.White);
+
             //Drawing Rockets
-            Graphics g = picCanvas.CreateGraphics();
-            g.Clear(Color.White);
             m_popul.Draw(g);
 
             //Drawing Target
@@ -77,6 +78,9 @@ namespace SimpleRocket
                     m_target.X + (float)(d * Math.Sin(i * Math.PI / 180)),
                     m_target.Y - (float)(d * Math.Cos(i * Math.PI / 180)));
             }
+
+            picCanvas.CreateGraphics().DrawImageUnscaled(drawing, new System.Drawing.Point(0, 0));
+
             this.Text = string.Format("{0}세대, Max Fit : {1}", m_popul.generations, m_popul.maxFit);
         }
 
@@ -132,10 +136,10 @@ namespace SimpleRocket
         {
             bStart = false;
         }
-
-        private void trackBarTimer_Scroll(object sender, EventArgs e)
+        
+        private void picCanvas_Paint(object sender, PaintEventArgs e)
         {
-            tmrAnimated.Interval = trackBarTimer.Value;
+            
         }
     }
 }

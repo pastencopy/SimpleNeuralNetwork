@@ -12,7 +12,7 @@ namespace SimpleRocket
     {
         private static Random rnd = new Random();
 
-        private const int MAX_SPEED = 5;
+        private const double MAX_SPEED = 0.4F;
 
         public Vector2 [] genes;
         public DNA(int num)

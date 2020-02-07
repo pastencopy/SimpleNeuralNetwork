@@ -40,23 +40,27 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTimer)).BeginInit();
             this.SuspendLayout();
             // 
             // picCanvas
             // 
-            this.picCanvas.Location = new System.Drawing.Point(79, 12);
+            this.picCanvas.Location = new System.Drawing.Point(14, 12);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(405, 370);
+            this.picCanvas.Size = new System.Drawing.Size(521, 425);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
+            this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
             this.picCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picCanvas_MouseDown);
             this.picCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picCanvas_MouseUp);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(574, 281);
+            this.btnStart.Location = new System.Drawing.Point(572, 340);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(193, 43);
             this.btnStart.TabIndex = 1;
@@ -72,7 +76,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(574, 339);
+            this.btnStop.Location = new System.Drawing.Point(572, 389);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(193, 43);
             this.btnStop.TabIndex = 2;
@@ -82,9 +86,9 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(574, 72);
+            this.btnReset.Location = new System.Drawing.Point(759, 21);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(193, 43);
+            this.btnReset.Size = new System.Drawing.Size(88, 43);
             this.btnReset.TabIndex = 3;
             this.btnReset.Text = "리셋";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -92,15 +96,14 @@
             // 
             // trackBarTimer
             // 
-            this.trackBarTimer.LargeChange = 20;
-            this.trackBarTimer.Location = new System.Drawing.Point(573, 233);
-            this.trackBarTimer.Maximum = 100;
+            this.trackBarTimer.LargeChange = 10;
+            this.trackBarTimer.Location = new System.Drawing.Point(632, 272);
+            this.trackBarTimer.Maximum = 50;
             this.trackBarTimer.Minimum = 1;
             this.trackBarTimer.Name = "trackBarTimer";
-            this.trackBarTimer.Size = new System.Drawing.Size(192, 42);
+            this.trackBarTimer.Size = new System.Drawing.Size(165, 42);
             this.trackBarTimer.TabIndex = 4;
-            this.trackBarTimer.Value = 10;
-            this.trackBarTimer.Scroll += new System.EventHandler(this.trackBarTimer_Scroll);
+            this.trackBarTimer.Value = 1;
             // 
             // txtRockets
             // 
@@ -123,33 +126,63 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(571, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 12);
+            this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Rockets :";
+            this.label1.Text = "로켓 수 :";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(586, 48);
+            this.label2.Location = new System.Drawing.Point(573, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 12);
+            this.label2.Size = new System.Drawing.Size(54, 12);
             this.label2.TabIndex = 8;
-            this.label2.Text = "DNA :";
+            this.label2.Text = "DNA 수 :";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 401);
+            this.label3.Location = new System.Drawing.Point(12, 457);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(439, 12);
             this.label3.TabIndex = 9;
             this.label3.Text = "왼쪽버튼으로 드래그 하여 사각형 벽돌 생성 / 삭제시 오른쪽 버튼으로 영역 지정";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(573, 244);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 12);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "진행 속도:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(588, 281);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "천천히";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(803, 281);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 12);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "빠르게";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 422);
+            this.ClientSize = new System.Drawing.Size(891, 478);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -182,6 +215,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -170,13 +170,15 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
-            foreach (Rocket r in rockets)
-            {
-                r.Draw(g);
-            }
+            
             foreach (Block b in blocks)
             {
                 b.Draw(g);
+            }
+
+            foreach (Rocket r in rockets)
+            {
+                r.Draw(g);
             }
         }
     }

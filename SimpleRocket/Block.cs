@@ -44,7 +44,7 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
-            g.DrawRectangle(Pens.Black, (float)this.x, (float)this.y, (float)this.width, (float)this.height);
+            g.FillRectangle(Brushes.MediumPurple, (float)this.x, (float)this.y, (float)this.width, (float)this.height);
         }
 
     }

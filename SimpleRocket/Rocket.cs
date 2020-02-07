@@ -18,7 +18,7 @@ namespace SimpleRocket
         public double size = 10;
         public float fitness = 0.0F; //피트니스 수치
 
-        double maxSpeed = 10.0; //움직이는 속도 최대값
+        double maxSpeed = 20.0; //움직이는 속도 최대값
 
         public Vector2 pos; //위치
         public Vector2 vel; //속도
