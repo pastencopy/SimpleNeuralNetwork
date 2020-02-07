@@ -38,6 +38,7 @@
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,11 +137,21 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "맞는 숫자 (직접 학습 지도) :";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(82, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(157, 12);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "마우스 오른쪽 버튼 : 지우기";
+            // 
             // frmGuessWhat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(697, 460);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtNumber);
@@ -171,5 +182,6 @@
         private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
