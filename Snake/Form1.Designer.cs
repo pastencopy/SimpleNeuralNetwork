@@ -33,21 +33,28 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.tmrGame = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.btnStartGenetic = new System.Windows.Forms.Button();
+            this.tmrGenetic = new System.Windows.Forms.Timer(this.components);
+            this.trackSpeed = new System.Windows.Forms.TrackBar();
+            this.trackSkip = new System.Windows.Forms.TrackBar();
+            this.chkBestSnake = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSkip)).BeginInit();
             this.SuspendLayout();
             // 
             // picCanvas
             // 
             this.picCanvas.Location = new System.Drawing.Point(12, 12);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(640, 516);
+            this.picCanvas.Size = new System.Drawing.Size(554, 452);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
             this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(658, 12);
+            this.btnStart.Location = new System.Drawing.Point(590, 12);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(121, 56);
             this.btnStart.TabIndex = 1;
@@ -63,17 +70,67 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(621, 531);
+            this.label1.Location = new System.Drawing.Point(613, 360);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(168, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "화살표 이동키 / Num(8,4,5,6)";
             // 
+            // btnStartGenetic
+            // 
+            this.btnStartGenetic.Location = new System.Drawing.Point(599, 158);
+            this.btnStartGenetic.Name = "btnStartGenetic";
+            this.btnStartGenetic.Size = new System.Drawing.Size(121, 48);
+            this.btnStartGenetic.TabIndex = 3;
+            this.btnStartGenetic.Text = "Start Genetic";
+            this.btnStartGenetic.UseVisualStyleBackColor = true;
+            this.btnStartGenetic.Click += new System.EventHandler(this.btnStartGenetic_Click);
+            // 
+            // tmrGenetic
+            // 
+            this.tmrGenetic.Interval = 80;
+            this.tmrGenetic.Tick += new System.EventHandler(this.tmrGenetic_Tick);
+            // 
+            // trackSpeed
+            // 
+            this.trackSpeed.Location = new System.Drawing.Point(604, 271);
+            this.trackSpeed.Maximum = 80;
+            this.trackSpeed.Minimum = 1;
+            this.trackSpeed.Name = "trackSpeed";
+            this.trackSpeed.Size = new System.Drawing.Size(226, 42);
+            this.trackSpeed.TabIndex = 4;
+            this.trackSpeed.Value = 80;
+            this.trackSpeed.Scroll += new System.EventHandler(this.trackSpeed_Scroll);
+            // 
+            // trackSkip
+            // 
+            this.trackSkip.Location = new System.Drawing.Point(604, 223);
+            this.trackSkip.Maximum = 1000;
+            this.trackSkip.Minimum = 1;
+            this.trackSkip.Name = "trackSkip";
+            this.trackSkip.Size = new System.Drawing.Size(226, 42);
+            this.trackSkip.TabIndex = 5;
+            this.trackSkip.Value = 1;
+            // 
+            // chkBestSnake
+            // 
+            this.chkBestSnake.AutoSize = true;
+            this.chkBestSnake.Location = new System.Drawing.Point(599, 125);
+            this.chkBestSnake.Name = "chkBestSnake";
+            this.chkBestSnake.Size = new System.Drawing.Size(155, 16);
+            this.chkBestSnake.TabIndex = 6;
+            this.chkBestSnake.Text = "가장 좋은 Snake만 보기";
+            this.chkBestSnake.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 549);
+            this.ClientSize = new System.Drawing.Size(839, 506);
+            this.Controls.Add(this.chkBestSnake);
+            this.Controls.Add(this.trackSkip);
+            this.Controls.Add(this.trackSpeed);
+            this.Controls.Add(this.btnStartGenetic);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.picCanvas);
@@ -81,6 +138,8 @@
             this.Name = "Form1";
             this.Text = "Snake Game";
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSkip)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,6 +151,11 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Timer tmrGame;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnStartGenetic;
+        private System.Windows.Forms.Timer tmrGenetic;
+        private System.Windows.Forms.TrackBar trackSpeed;
+        private System.Windows.Forms.TrackBar trackSkip;
+        private System.Windows.Forms.CheckBox chkBestSnake;
     }
 }
 

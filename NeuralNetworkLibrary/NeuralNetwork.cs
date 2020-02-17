@@ -36,6 +36,7 @@ namespace NeuralNetworkLibrary
             (x, i, j) => Math.Tanh(x),
             (y, i, j) => 1 - (y * y)
         );
+
     }
 
     public class NeuralNetwork
@@ -172,7 +173,7 @@ namespace NeuralNetworkLibrary
             return new NeuralNetwork(this);
         }
 
-        public void Mutate(Func<double, int, int, double> func)
+        public void Mutate(Func<double, double> func)
         {
             this.weights_ih.map(func);
             this.weights_ho.map(func);

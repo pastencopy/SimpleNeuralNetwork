@@ -23,7 +23,7 @@ namespace NeuralNetworkLibrary
 {
     public class Matrix
     {
-        Random rnd = new Random();
+
         //행렬 데이터
         public int rows;
         public int cols;
@@ -157,7 +157,7 @@ namespace NeuralNetworkLibrary
 
         public Matrix Randomize()
         {            
-            return this.map(x => (rnd.NextDouble() * 2 - 1));
+            return this.map(x => (RandomGaussian.NextDouble() * 2 - 1));
         }
 
         /**  

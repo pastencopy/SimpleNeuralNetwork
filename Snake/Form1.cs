@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using NeuralNetworkLibrary;
+
 namespace Snake
 {
     public partial class Form1 : Form
@@ -32,6 +34,8 @@ namespace Snake
         int world_height;
 
         Bitmap drawImage;
+
+        Population pop;
         public Form1()
         {
             InitializeComponent();
@@ -39,7 +43,6 @@ namespace Snake
             drawImage = new Bitmap(picCanvas.Width, picCanvas.Height);
             Graphics.FromImage(drawImage).Clear(Color.White);
             picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
-
         }
 
         private void NewGame()
@@ -54,6 +57,17 @@ namespace Snake
             MakeNewFood();
         }
 
+        private void NewGameGenetic()
+        {
+            world_width = picCanvas.Width / Snake.SIZE - 1;
+            world_height = picCanvas.Height / Snake.SIZE - 1;
+
+            snake = new Snake(world_width / 2, world_height / 2, world_width, world_height);
+            food = null;
+            nScore = 0;
+            MakeNewFood();
+        }
+
         private void MakeNewFood()
         {
             if (food != null && food.eat == false)
@@ -62,17 +76,20 @@ namespace Snake
             int x = rnd.Next(1, world_width - 1);
             int y = rnd.Next(1, world_height - 1);
 
-            while (snake.CheckCollide(x, y))
+            if (snake != null)
             {
-                x = rnd.Next(0, world_width);
-                y = rnd.Next(0, world_height);
+                while (snake.CheckCollide(x, y))
+                {
+                    x = rnd.Next(0, world_width);
+                    y = rnd.Next(0, world_height);
+                }
             }
-
             food = new Food(x, y);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            tmrGenetic.Enabled = false;
             NewGame();
             tmrGame.Enabled = true;
         }
@@ -109,28 +126,111 @@ namespace Snake
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            //화살표 이동키를 사용
-            if (keyData == Keys.NumPad4 || keyData == Keys.Left)
+            if (tmrGame.Enabled == true)
             {
-                snake.Go(Snake.DIRECTION.LEFT);
-            }
-            else if (keyData == Keys.NumPad6 || keyData == Keys.Right)
-            {
-                snake.Go(Snake.DIRECTION.RIGHT);
-            }
-            else if (keyData == Keys.NumPad8 || keyData == Keys.Up)
-            {
-                snake.Go(Snake.DIRECTION.UP);
-            }
-            else if (keyData == Keys.NumPad5 || keyData == Keys.Down)
-            {
-                snake.Go(Snake.DIRECTION.DOWN);
+                //화살표 이동키를 사용
+                if (keyData == Keys.NumPad4 || keyData == Keys.Left)
+                {
+                    snake.Go(Snake.DIRECTION.LEFT);
+                }
+                else if (keyData == Keys.NumPad6 || keyData == Keys.Right)
+                {
+                    snake.Go(Snake.DIRECTION.RIGHT);
+                }
+                else if (keyData == Keys.NumPad8 || keyData == Keys.Up)
+                {
+                    snake.Go(Snake.DIRECTION.UP);
+                }
+                else if (keyData == Keys.NumPad5 || keyData == Keys.Down)
+                {
+                    snake.Go(Snake.DIRECTION.DOWN);
+                }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private void picCanvas_Paint(object sender, PaintEventArgs e)
         {
             picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
+        }
+
+        private void btnStartGenetic_Click(object sender, EventArgs e)
+        {
+            tmrGame.Enabled = false;
+
+            //Genetic Snake
+            world_width = picCanvas.Width / Snake.SIZE - 1;
+            world_height = picCanvas.Height / Snake.SIZE - 1;
+            food = null;
+            nScore = 0;
+
+            NewGameGenetic();
+
+            pop = new Population(100, world_width / 2, world_height / 2, world_width, world_height);
+            snake = pop.PopSnake();
+            tmrGenetic.Enabled = true;
+        }
+
+
+        private void tmrGenetic_Tick(object sender, EventArgs e)
+        {
+            Graphics g = Graphics.FromImage(drawImage);
+            g.Clear(Color.White);
+
+            this.Text = string.Format("Score : {0}   / MaxFit:{1:0.000000000}    Gen : {2}", nScore, pop.latestFitness, pop.generation);
+
+            for (int i = 0; i < trackSkip.Value; i++)
+            {
+                snake.Forward();
+                snake.Go(snake.Think(food));
+
+                if (snake.Eat(food) == true)
+                {
+                    nScore++;
+                }
+
+                snake.Draw(g);
+
+                if (food != null)
+                    food.Draw(g);
+
+                MakeNewFood();
+
+                if (snake.IsDead() == true)
+                {
+                    if (chkBestSnake.Checked == true && pop.bestSnake != null)
+                    {
+                        NewGameGenetic();
+                        snake = pop.bestSnake.Copy();
+                        snake.Go(snake.Think(food));
+                    }
+                    else
+                    {
+                        if (pop.OutOfSnakes() == true)
+                        {
+                            //Evolution!
+                            pop.NextGeneration();
+                            NewGameGenetic();
+
+                            snake = pop.PopSnake();
+                            snake.Go(snake.Think(food));
+                        }
+                        else
+                        {
+                            NewGameGenetic();
+                            snake = pop.PopSnake();
+                            snake.Go(snake.Think(food));
+                        }
+                    }
+                }
+
+            }
+
+            picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
+        }
+
+        private void trackSpeed_Scroll(object sender, EventArgs e)
+        {
+            tmrGenetic.Interval = trackSpeed.Value;
         }
     }
 }
