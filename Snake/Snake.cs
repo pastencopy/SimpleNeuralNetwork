@@ -39,7 +39,7 @@ namespace Snake
         int alive;
 
         //VISION
-        double[] vision = new double[5];
+        double[] vision = new double[7];
         public double fitness;
         public NeuralNetwork brain;
         public enum VISION
@@ -236,7 +236,7 @@ namespace Snake
             return CheckCollideTail(x, y);
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, bool showVision = false)
         {
             Brush brush = Brushes.Black;
             if (dead == true)
@@ -250,6 +250,53 @@ namespace Snake
                 g.FillRectangle(brush, child.X * SIZE, child.Y * SIZE, SIZE, SIZE);
             }
 
+            if (showVision == true)
+            {
+                DrawVision(g);
+            }
+
+        }
+
+        private void DrawVision(Graphics g)
+        {
+            Brush eyeColor = new SolidBrush(Color.FromArgb(50, Color.Red));
+
+            if (this.dir == DIRECTION.LEFT)
+            {
+                //     x
+                //    x<---
+                //     x
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //left
+                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //up
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //right
+            }
+            else if (this.dir == DIRECTION.RIGHT)
+            {
+                //     x
+                //    ->x
+                //     x
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //left
+                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //up
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //right
+            }
+            else if (this.dir == DIRECTION.DOWN)
+            {
+                //     |
+                //    xVx
+                //     x
+                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //left
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //up
+                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //right
+            }
+            else
+            {
+                //     x
+                //    x^x
+                //     |
+                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //left
+                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //up
+                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //right
+            }
         }
 
         //NeuralNetwork Moving
@@ -299,7 +346,18 @@ namespace Snake
             }
             
             vision[3] = Math.Atan2(y - f.y, x - f.x); // 음식 위치와 이루는 각
-            vision[4] = 1 -  (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
+            vision[4] = (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
+
+            if (tails.Count > 0)
+            {
+                vision[5] = Math.Atan2(y - tails.Last().Y, x - tails.Last().X); // 마지막 꼬리와 이루는 각
+                vision[6] = (1 / (Vector2.Distance(new Vector2(tails.Last().X, tails.Last().Y), new Vector2(x, y)) + 1)); //마지막꼬리와의 거리
+            }
+            else
+            {
+                vision[5] = 0;
+                vision[6] = 0;
+            }
 
             double[] direction = brain.Predict(vision);
             int k = Array.IndexOf(direction, direction.Max());

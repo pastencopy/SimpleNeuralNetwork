@@ -44,6 +44,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.chkbxShowVision = new System.Windows.Forms.CheckBox();
+            this.chkbxShowGraphic = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackSkip)).BeginInit();
@@ -152,6 +154,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkbxShowGraphic);
+            this.groupBox2.Controls.Add(this.chkbxShowVision);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
@@ -195,6 +199,28 @@
             this.label4.Text = "세대별 100 개체\r\n\r\n생명 200\r\n\r\n음식습득시 +200\r\n\r\n변이율 10%\r\n\r\nFitness = 꼬리길이 + 살아남은 시간 에 비례\r\n\r" +
     "\n자식세대 = 최고부모(50%) + 다른부모(50%)";
             // 
+            // chkbxShowVision
+            // 
+            this.chkbxShowVision.AutoSize = true;
+            this.chkbxShowVision.Location = new System.Drawing.Point(22, 31);
+            this.chkbxShowVision.Name = "chkbxShowVision";
+            this.chkbxShowVision.Size = new System.Drawing.Size(104, 16);
+            this.chkbxShowVision.TabIndex = 11;
+            this.chkbxShowVision.Text = "시야 정보 보기";
+            this.chkbxShowVision.UseVisualStyleBackColor = true;
+            // 
+            // chkbxShowGraphic
+            // 
+            this.chkbxShowGraphic.AutoSize = true;
+            this.chkbxShowGraphic.Checked = true;
+            this.chkbxShowGraphic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkbxShowGraphic.Location = new System.Drawing.Point(15, 376);
+            this.chkbxShowGraphic.Name = "chkbxShowGraphic";
+            this.chkbxShowGraphic.Size = new System.Drawing.Size(100, 16);
+            this.chkbxShowGraphic.TabIndex = 12;
+            this.chkbxShowGraphic.Text = "그래픽 그리기";
+            this.chkbxShowGraphic.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -234,6 +260,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkbxShowVision;
+        private System.Windows.Forms.CheckBox chkbxShowGraphic;
     }
 }
 

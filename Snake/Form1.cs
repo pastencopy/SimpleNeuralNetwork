@@ -14,6 +14,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -172,7 +173,11 @@ namespace Snake
         private void tmrGenetic_Tick(object sender, EventArgs e)
         {
             Graphics g = Graphics.FromImage(drawImage);
-            g.Clear(Color.White);
+
+            if (chkbxShowGraphic.Checked == true)
+            {
+                g.Clear(Color.White);
+            }
 
             this.Text = string.Format("Best Score : {0},  Fit:{1:0.000000000}    Gen : {2}  ", pop.bestScore, pop.latestFitness, pop.generation);
 
@@ -182,10 +187,12 @@ namespace Snake
                 snake.Think(food);
                 snake.Eat(food);
 
-                snake.Draw(g);
-
-                if (food != null)
-                    food.Draw(g);
+                if (chkbxShowGraphic.Checked == true)
+                {
+                    snake.Draw(g, chkbxShowVision.Checked);
+                    if (food != null)
+                        food.Draw(g);
+                }
 
                 MakeNewFood();
 
@@ -207,10 +214,11 @@ namespace Snake
                         snake = pop.GetNextSnake();
                     }
                 }
-
             }
-
-            picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
+            if (chkbxShowGraphic.Checked == true)
+            {
+                picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
+            }
         }
 
         private void trackSpeed_Scroll(object sender, EventArgs e)
