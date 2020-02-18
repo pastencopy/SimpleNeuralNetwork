@@ -10,9 +10,9 @@ using NeuralNetworkLibrary;
 namespace Snake
 {
     class Snake
-    {        
+    {
         public const int SIZE = 20;
-        public const int MAX_LIFE = 200;
+        public const int LIFE = 200;
         public enum DIRECTION
         {
             NONE = 0,
@@ -22,11 +22,9 @@ namespace Snake
             RIGHT = 4,
         }
 
-        int startX;
-        int startY;
-
         int x;
         int y;
+
         int screen_width;
         int screen_height;
 
@@ -34,56 +32,57 @@ namespace Snake
         DIRECTION dir;
         List<Point> tails = new List<Point>();
 
+        public int nScore = 0;
 
-        Snake bestSnake;
         //Life Fitness
         public int life;
         int alive;
 
         //VISION
-        double[] vision = new double[8];
+        double[] vision = new double[5];
         public double fitness;
         public NeuralNetwork brain;
         public enum VISION
         {
-            ROAD,
-            FOOD,
-            WALL,
-            TAIL
+            FOOD = 0,
+            ROAD = 1,
+            TAIL = 2,
+            WALL = 3,
+            
         }
-        public Snake(NeuralNetwork brain, int x, int y, int screen_width, int screen_height)
+        public Snake(NeuralNetwork target_brain, int screen_width, int screen_height)
         {
-            this.brain = brain.Copy();
-            Init(x, y, screen_width, screen_height);
+            this.brain = target_brain.Copy();
+            Init(screen_width, screen_height);
         }
 
         public Snake Copy()
         {
-            return new Snake(this.brain, this.startX, this.startY, screen_width, screen_height);
+            return new Snake(this.brain, screen_width, screen_height);
         }
 
 
-        private void Init(int x, int y, int screen_width, int screen_height)
+        private void Init( int screen_width, int screen_height)
         {
-            this.startX = x;
-            this.startY = y;
-            this.x = x;
-            this.y = y;
+            this.x = RandomGaussian.Next(3, screen_width - 3);
+            this.y = RandomGaussian.Next(3, screen_height - 3);
             this.screen_width = screen_width;
             this.screen_height = screen_height;
 
             this.dead = false;
             this.dir = DIRECTION.UP;
+            this.nScore = 0;
+
+
             //Neural초기값
-            this.life = MAX_LIFE;
+            this.life = LIFE;
             this.alive = 0;
             this.fitness = 0.0;
         }
-        public Snake(int x, int y, int screen_width, int screen_height)
+        public Snake(int screen_width, int screen_height)
         {
-            Init(x, y, screen_width, screen_height);
-
-            brain = new NeuralNetwork(8, 10, 3);
+            brain = new NeuralNetwork(vision.Length, 10, 3);
+            Init(screen_width, screen_height);
         }
 
         public void Forward()
@@ -111,8 +110,8 @@ namespace Snake
         {
             if (dead == true) return;
 
-            //Protect from wrong moving
-            if ( ((dir == DIRECTION.LEFT && this.dir == DIRECTION.RIGHT)
+            //잘못된 움직임 예방
+            if (((dir == DIRECTION.LEFT && this.dir == DIRECTION.RIGHT)
                  || (dir == DIRECTION.RIGHT && this.dir == DIRECTION.LEFT)
                  )
                  ||
@@ -122,8 +121,8 @@ namespace Snake
                  )
             )
             {
-                
-                    return;
+
+                return;
             }
 
             this.dir = dir;
@@ -131,10 +130,12 @@ namespace Snake
 
         private void MoveTail(int x, int y)
         {
+            if (tails.Count == 0) return;
+
             int oldX = x;
             int oldY = y;
 
-            for (int i=0;i<tails.Count;i++)
+            for (int i = 0; i < tails.Count; i++)
             {
                 Point p = tails[i];
                 int tmpX = p.X;
@@ -149,7 +150,7 @@ namespace Snake
 
         private bool CheckCollideTail(int x, int y)
         {
-            foreach(Point p in tails)
+            foreach (Point p in tails)
             {
                 if (p.X == x && p.Y == y)
                 {
@@ -184,7 +185,7 @@ namespace Snake
 
         private bool CheckBound(int x, int y)
         {
-            if (x < 1 || y < 1 || x >= screen_width || y >= screen_height)
+            if (x < 0 || y < 0 || x > screen_width || y > screen_height)
             {
                 return true;
             }
@@ -211,7 +212,9 @@ namespace Snake
 
             if (this.x == food.x && this.y == food.y)
             {
-                life += 300;
+                nScore++;
+                life += LIFE;
+                
                 food.eat = true;
                 Grow();
                 return true;
@@ -246,159 +249,139 @@ namespace Snake
             {
                 g.FillRectangle(brush, child.X * SIZE, child.Y * SIZE, SIZE, SIZE);
             }
+
         }
-        
+
         //NeuralNetwork Moving
-        public DIRECTION Think(Food f)
+        public void Think(Food f)
         {
             //Step1 : 현재 진행중인 방향의 상좌우 대각선의 목표물을 확인하여 결정
-            life--;
-
-            
             if (this.dir == DIRECTION.LEFT)
             {
-                //    xx
+                //     x
                 //    x<---
-                //    xx
+                //     x
 
-                vision[0] = (int)LookAt(this.x    , this.y + 1, f); //left
-                vision[1] = (int)LookAt(this.x - 1, this.y + 1, f); //leftup
-                vision[2] = (int)LookAt(this.x - 1, this.y    , f); //up
-                vision[3] = (int)LookAt(this.x - 1, this.y - 1, f);  //rightup
-                vision[4] = (int)LookAt(this.x    , this.y - 1, f); //right
-                vision[5] = (int)DIRECTION.LEFT;
-                vision[6] = 1 / Vector2.Distance(new Vector2(f.x,f.y), new Vector2(x, y));
-                vision[7] = (this.x - 1) / screen_width;
+                vision[0] = (double)LookAt(this.x, this.y + 1, f); //left
+                vision[1] = (double)LookAt(this.x - 1, this.y, f); //up
+                vision[2] = (double)LookAt(this.x, this.y - 1, f); //right
             }
             else if (this.dir == DIRECTION.RIGHT)
             {
-                //     xx
+                //     x
                 //    ->x
-                //     xx
+                //     x
 
-                vision[0] = (int)LookAt(this.x    , this.y - 1, f); //left
-                vision[1] = (int)LookAt(this.x + 1, this.y - 1, f); //leftup
-                vision[2] = (int)LookAt(this.x + 1, this.y    , f); //up
-                vision[3] = (int)LookAt(this.x + 1, this.y + 1, f);  //rightup
-                vision[4] = (int)LookAt(this.x    , this.y + 1, f); //right
-                vision[5] = (int)DIRECTION.RIGHT;
-                vision[6] = 1 / Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y));
-                vision[7] = (screen_width - (this.x + 1) ) / screen_width;
+                vision[0] = (double)LookAt(this.x, this.y - 1, f); //left
+                vision[1] = (double)LookAt(this.x + 1, this.y, f); //up
+                vision[2] = (double)LookAt(this.x, this.y + 1, f); //right
             }
             else if (this.dir == DIRECTION.DOWN)
             {
                 //     |
                 //    xVx
-                //    xxx
+                //     x
 
-                vision[0] = (int)LookAt(this.x + 1, this.y    , f); //left
-                vision[1] = (int)LookAt(this.x + 1, this.y + 1, f); //leftup
-                vision[2] = (int)LookAt(this.x    , this.y + 1, f); //up
-                vision[3] = (int)LookAt(this.x - 1, this.y + 1, f); //rightup
-                vision[4] = (int)LookAt(this.x - 1, this.y    , f); //right
-                vision[5] = (int)DIRECTION.DOWN;
-                vision[6] = 1 / Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y));
-                vision[7] = (screen_height - (this.y + 1)) / screen_height;
+                vision[0] = (double)LookAt(this.x + 1, this.y, f); //left
+                vision[1] = (double)LookAt(this.x, this.y + 1, f); //up
+                vision[2] = (double)LookAt(this.x - 1, this.y, f); //right
+
             }
             else
             {
-                //    xxx
+                //     x
                 //    x^x
                 //     |
 
-                vision[0] = (int)LookAt(this.x - 1, this.y    , f); //left
-                vision[1] = (int)LookAt(this.x - 1, this.y - 1, f); //leftup
-                vision[2] = (int)LookAt(this.x    , this.y - 1, f); //up
-                vision[3] = (int)LookAt(this.x + 1, this.y - 1, f);  //rightup
-                vision[4] = (int)LookAt(this.x + 1, this.y    , f); //right
-                vision[5] = (int)DIRECTION.UP;
-                vision[6] = 1 / Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y));
-                vision[7] = (screen_height - (this.y - 1)) / screen_height;
+                vision[0] = (double)LookAt(this.x - 1, this.y, f); //left
+                vision[1] = (double)LookAt(this.x, this.y - 1, f); //up
+                vision[2] = (double)LookAt(this.x + 1, this.y, f); //right
             }
+            
+            vision[3] = Math.Atan2(y - f.y, x - f.x); // 음식 위치와 이루는 각
+            vision[4] = 1 -  (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
 
             double[] direction = brain.Predict(vision);
-
             int k = Array.IndexOf(direction, direction.Max());
+            ChangeDirectionFromPredict(k);
+        }
 
+        private void ChangeDirectionFromPredict(int k)
+        {
             if (this.dir == DIRECTION.UP)
             {
                 if (k == 1)
                 {
-                    return DIRECTION.LEFT;
+                    Go(DIRECTION.LEFT);
                 }
                 else if (k == 2)
                 {
-                    return DIRECTION.RIGHT;
+                    Go(DIRECTION.RIGHT);
                 }
             }
             else if (this.dir == DIRECTION.DOWN)
             {
                 if (k == 1)
                 {
-                    return DIRECTION.RIGHT;
+                    Go(DIRECTION.RIGHT);
                 }
                 else if (k == 2)
                 {
-                    return DIRECTION.LEFT;
+                    Go(DIRECTION.LEFT);
                 }
             }
             else if (this.dir == DIRECTION.LEFT)
             {
                 if (k == 1)
                 {
-                    return DIRECTION.DOWN;
+                    Go(DIRECTION.DOWN);
                 }
                 else if (k == 2)
                 {
-                    return DIRECTION.UP;
+                    Go(DIRECTION.UP);
                 }
             }
             else if (this.dir == DIRECTION.RIGHT)
             {
                 if (k == 1)
                 {
-                    return DIRECTION.UP;
+                    Go(DIRECTION.UP);
                 }
                 else if (k == 2)
                 {
-                    return DIRECTION.DOWN;
+                    Go(DIRECTION.DOWN);
                 }
             }
-
-            return DIRECTION.NONE;
         }
 
-        private VISION LookAt(int x, int y, Food f)
+
+        private double LookAt(int x, int y, Food f)
         {
-            if (CheckCollideTail(x,y) == true)
+            if (CheckCollideTail(x, y) == true)
             {
-                return VISION.TAIL;
+                return -1.0;
             }
 
-            if (CheckBound(x,y) == true)
+            if (CheckBound(x, y) == true)
             {
-                return VISION.WALL;
+                return -1.0;
             }
 
             if (f.x == x && f.y == y)
             {
-                return VISION.FOOD;
+                return 1.0;
             }
 
-            return VISION.ROAD;
+            return 0;
         }
 
         public void CalcFitness()
         {
             //꼬리 가중치 + 생명력 가중치
-            fitness = 1 + Math.Pow((this.tails.Count + 1), 3.0) + life + Math.Pow(alive + 1, 2.0);
-            
+            fitness = Math.Pow(this.tails.Count + nScore + 1, 2.0) + life;
+
             double[] output = brain.Predict(vision);
-            if (this.dead == true)
-            {
-                //죽었을때 가중치 -
-                fitness *= 0.1;
-            }
+            
         }
 
         private double GaussianValue(double v)
@@ -409,6 +392,11 @@ namespace Snake
                 result = v + (RandomGaussian.NextGaussian() * 0.5);
             }
             return result;
+        }
+
+        public Snake Crossover(Snake partner)
+        {
+            return new Snake(brain.Crossover(partner.brain),screen_width,screen_height);
         }
         public void Mutate()
         {

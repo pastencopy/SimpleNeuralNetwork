@@ -50,7 +50,7 @@ namespace Snake
             world_width = picCanvas.Width / Snake.SIZE - 1;
             world_height = picCanvas.Height / Snake.SIZE - 1;
 
-            snake = new Snake(world_width / 2, world_height / 2, world_width, world_height);
+            snake = new Snake(world_width, world_height);
             food = null;
             nScore = 0;
             this.Text = string.Format("Score : {0}", nScore);
@@ -61,8 +61,6 @@ namespace Snake
         {
             world_width = picCanvas.Width / Snake.SIZE - 1;
             world_height = picCanvas.Height / Snake.SIZE - 1;
-
-            snake = new Snake(world_width / 2, world_height / 2, world_width, world_height);
             food = null;
             nScore = 0;
             MakeNewFood();
@@ -73,8 +71,8 @@ namespace Snake
             if (food != null && food.eat == false)
                 return;
 
-            int x = rnd.Next(1, world_width - 1);
-            int y = rnd.Next(1, world_height - 1);
+            int x = rnd.Next(0, world_width );
+            int y = rnd.Next(0, world_height );
 
             if (snake != null)
             {
@@ -165,8 +163,8 @@ namespace Snake
 
             NewGameGenetic();
 
-            pop = new Population(100, world_width / 2, world_height / 2, world_width, world_height);
-            snake = pop.PopSnake();
+            pop = new Population(100, world_width, world_height);
+            snake = pop.GetNextSnake();
             tmrGenetic.Enabled = true;
         }
 
@@ -176,17 +174,13 @@ namespace Snake
             Graphics g = Graphics.FromImage(drawImage);
             g.Clear(Color.White);
 
-            this.Text = string.Format("Score : {0}   / MaxFit:{1:0.000000000}    Gen : {2}", nScore, pop.latestFitness, pop.generation);
+            this.Text = string.Format("Best Score : {0},  Fit:{1:0.000000000}    Gen : {2}  ", pop.bestScore, pop.latestFitness, pop.generation);
 
             for (int i = 0; i < trackSkip.Value; i++)
             {
                 snake.Forward();
-                snake.Go(snake.Think(food));
-
-                if (snake.Eat(food) == true)
-                {
-                    nScore++;
-                }
+                snake.Think(food);
+                snake.Eat(food);
 
                 snake.Draw(g);
 
@@ -199,9 +193,8 @@ namespace Snake
                 {
                     if (chkBestSnake.Checked == true && pop.bestSnake != null)
                     {
-                        NewGameGenetic();
                         snake = pop.bestSnake.Copy();
-                        snake.Go(snake.Think(food));
+                        NewGameGenetic();
                     }
                     else
                     {
@@ -210,16 +203,8 @@ namespace Snake
                             //Evolution!
                             pop.NextGeneration();
                             NewGameGenetic();
-
-                            snake = pop.PopSnake();
-                            snake.Go(snake.Think(food));
                         }
-                        else
-                        {
-                            NewGameGenetic();
-                            snake = pop.PopSnake();
-                            snake.Go(snake.Think(food));
-                        }
+                        snake = pop.GetNextSnake();
                     }
                 }
 
@@ -231,6 +216,20 @@ namespace Snake
         private void trackSpeed_Scroll(object sender, EventArgs e)
         {
             tmrGenetic.Interval = trackSpeed.Value;
+        }
+
+        private void btnApplyBestSnake_Click(object sender, EventArgs e)
+        {
+            if (pop.bestSnake == null)
+            {
+                MessageBox.Show("아직 없습니다.");
+                return;
+            }
+
+            trackSkip.Value = 1;
+            tmrGenetic.Enabled = false;
+            snake = pop.bestSnake.Copy();
+            tmrGenetic.Enabled = true;
         }
     }
 }

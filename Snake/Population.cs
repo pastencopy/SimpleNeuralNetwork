@@ -15,21 +15,22 @@ namespace Snake
                 
         public Snake[] snakes;
         public Snake bestSnake;
+        public int bestScore = 0;
         
         int index = 0;
         double maxFitness = 0;
 
-        public Population(int numOfSnakes, int x, int y, int screen_width, int screen_height)
+        public Population(int numOfSnakes, int screen_width, int screen_height)
         {
             snakes = new Snake[numOfSnakes];
 
             for (int i = 0; i < numOfSnakes; i++)
             {
-                snakes[i] = new Snake(x, y, screen_width, screen_height);
+                snakes[i] = new Snake(screen_width, screen_height);
             }
         }
 
-        public Snake PopSnake()
+        public Snake GetNextSnake()
         {
             return snakes[index++];
         }
@@ -53,7 +54,6 @@ namespace Snake
 
         private Snake SelectOne()
         {
-            
             int index = 0;
 
             double rate = RandomGaussian.NextDouble(); // 0 to 1
@@ -66,21 +66,9 @@ namespace Snake
             return snakes[--index].Copy();
         }
 
+
         private void PoolGenerate()
         {
-            Snake[] newSnakes = new Snake[snakes.Length];
-            for (int i = 0; i< newSnakes.Length; i++)
-            {
-                newSnakes[i] = SelectOne();
-                newSnakes[i].Mutate();
-            }
-            snakes = newSnakes;
-        }
-
-        private void CalcFitness()
-        {
-            int maxIndex = 0;
-
             for (int i = 0; i < snakes.Length; i++)
             {
                 snakes[i].CalcFitness();
@@ -95,13 +83,17 @@ namespace Snake
                 //최고Snake 기록
                 if (bestSnake == null) {
                     bestSnake = snakes[i].Copy();
+                    bestScore = snakes[i].nScore;
                 } 
-                else if (bestSnake.fitness < snakes[i].fitness)
+                else if (bestScore < snakes[i].nScore)
                 {
                     bestSnake = snakes[i].Copy();
+                    bestScore = snakes[i].nScore;
                 }
             }
 
+            //Find Best Parent
+            int parentIndex = 0;
             for (int i = 0; i < snakes.Length; i++)
             {
                 snakes[i].fitness /= sumOfFitness;
@@ -109,14 +101,25 @@ namespace Snake
                 if (maxFitness <= snakes[i].fitness)
                 {
                     maxFitness = snakes[i].fitness;
-                    maxIndex = i;
+                    parentIndex = i;
                 }
             }
+
+            Snake[] newSnakes = new Snake[snakes.Length];
+            Snake parent = snakes[parentIndex].Copy();
+
+            for (int i = 0; i < newSnakes.Length; i++)
+            {
+                Snake partner = SelectOne();
+                newSnakes[i] = parent.Crossover(partner);
+                newSnakes[i].Mutate();
+            }
+            snakes = newSnakes;
+
         }
 
         public void NextGeneration()
         {
-            CalcFitness();
             PoolGenerate();
             generation++;
             index = 0;

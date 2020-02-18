@@ -33,5 +33,15 @@ namespace NeuralNetworkLibrary
         {
             return rnd.NextDouble();
         }
+
+        public static int Next()
+        {
+            return rnd.Next();
+        }
+
+        public static int Next(int min, int count)
+        {
+            return rnd.Next(min, count);
+        }
     }
 }

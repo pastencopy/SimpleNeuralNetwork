@@ -180,5 +180,30 @@ namespace NeuralNetworkLibrary
             this.bias_h.map(func);
             this.bias_o.map(func);
         }
+
+        public NeuralNetwork Crossover(NeuralNetwork other)
+        {
+            //other과 50% 확률로 바꾼다.
+            this.weights_ih.map((v, i, j) =>
+            {
+                return (RandomGaussian.NextDouble() < 0.5) ? other.weights_ih.data[i,j] : v;
+            });
+
+            this.weights_ho.map((v, i, j) =>
+            {
+                return (RandomGaussian.NextDouble() < 0.5) ? other.weights_ho.data[i, j] : v;
+            });
+            this.bias_h.map((v, i, j) =>
+            {
+                return (RandomGaussian.NextDouble() < 0.5) ? other.bias_h.data[i, j] : v;
+            });
+            this.bias_o.map((v, i, j) =>
+            {
+                return (RandomGaussian.NextDouble() < 0.5) ? other.bias_o.data[i, j] : v;
+            });
+
+            return this.Copy();
+        }
+
     }
 }
