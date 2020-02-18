@@ -259,44 +259,47 @@ namespace Snake
 
         private void DrawVision(Graphics g)
         {
-            Brush eyeColor = new SolidBrush(Color.FromArgb(50, Color.Red));
+            //     x
+            //    x^x
+            //     |
+            // 위로 갈 경우 기준 방향백터
+            Vector2 left =   new Vector2(-1, 0);
+            Vector2 right =  new Vector2(1, 0);
+            Vector2 front =  new Vector2(0, -1);
+            Vector2 center = new Vector2(x*SIZE + SIZE/2    , y*SIZE + SIZE / 2);
 
             if (this.dir == DIRECTION.LEFT)
             {
                 //     x
                 //    x<---
                 //     x
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //left
-                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //up
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //right
+                left = Vector2D.Rotate(left, -90);
+                right = Vector2D.Rotate(right, -90);
+                front = Vector2D.Rotate(front, -90);
             }
             else if (this.dir == DIRECTION.RIGHT)
             {
                 //     x
                 //    ->x
                 //     x
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //left
-                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //up
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //right
+                left = Vector2D.Rotate(left, 90);
+                right = Vector2D.Rotate(right, 90);
+                front = Vector2D.Rotate(front, 90);
+
             }
             else if (this.dir == DIRECTION.DOWN)
             {
                 //     |
                 //    xVx
                 //     x
-                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //left
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y + 1) * SIZE, SIZE, SIZE); //up
-                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //right
+                left = Vector2D.Rotate(left, 180);
+                right = Vector2D.Rotate(right, 180);
+                front = Vector2D.Rotate(front, 180);
             }
-            else
-            {
-                //     x
-                //    x^x
-                //     |
-                g.FillRectangle(eyeColor, (this.x - 1) * SIZE, this.y * SIZE, SIZE, SIZE); //left
-                g.FillRectangle(eyeColor, this.x * SIZE, (this.y - 1) * SIZE, SIZE, SIZE); //up
-                g.FillRectangle(eyeColor, (this.x + 1) * SIZE, this.y * SIZE, SIZE, SIZE); //right
-            }
+            
+            g.DrawLine(Pens.Red, (x + left.X) * SIZE + (SIZE/2), (y + left.Y) * SIZE + (SIZE / 2), center.X, center.Y);
+            g.DrawLine(Pens.Red, (x + right.X) * SIZE + (SIZE / 2), (y + right.Y) * SIZE + (SIZE / 2), center.X, center.Y);
+            g.DrawLine(Pens.Red, (x + front.X) * SIZE + (SIZE / 2), (y + front.Y) * SIZE + (SIZE / 2), center.X, center.Y);
         }
 
         //NeuralNetwork Moving
