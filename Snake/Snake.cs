@@ -302,7 +302,17 @@ namespace Snake
         //NeuralNetwork Moving
         public void Think(Food f)
         {
-            //Step1 : 현재 진행중인 방향의 상좌우 대각선의 목표물을 확인하여 결정
+            // 현재 진행중인 방향의 상좌우의 목표물을 확인하여 결정
+            //
+            // 시야만으로 판별하기 때문에 꼬리가 있는 경우 충돌할 수 도 있음.
+            //
+            //      [ ]
+            //   [ ] ^ [ ]
+            //       |
+            //   방향벡터
+            //   음식과 이루는 각
+            //   거리
+
             if (this.dir == DIRECTION.LEFT)
             {
                 //     x
@@ -312,6 +322,8 @@ namespace Snake
                 vision[0] = (double)LookAt(this.x, this.y + 1, f); //left
                 vision[1] = (double)LookAt(this.x - 1, this.y, f); //up
                 vision[2] = (double)LookAt(this.x, this.y - 1, f); //right
+                vision[3] = -1;
+                vision[4] = 0;
             }
             else if (this.dir == DIRECTION.RIGHT)
             {
@@ -322,6 +334,8 @@ namespace Snake
                 vision[0] = (double)LookAt(this.x, this.y - 1, f); //left
                 vision[1] = (double)LookAt(this.x + 1, this.y, f); //up
                 vision[2] = (double)LookAt(this.x, this.y + 1, f); //right
+                vision[3] = 1;
+                vision[4] = 0;
             }
             else if (this.dir == DIRECTION.DOWN)
             {
@@ -332,7 +346,8 @@ namespace Snake
                 vision[0] = (double)LookAt(this.x + 1, this.y, f); //left
                 vision[1] = (double)LookAt(this.x, this.y + 1, f); //up
                 vision[2] = (double)LookAt(this.x - 1, this.y, f); //right
-
+                vision[3] = 0;
+                vision[4] = 1;
             }
             else
             {
@@ -343,21 +358,12 @@ namespace Snake
                 vision[0] = (double)LookAt(this.x - 1, this.y, f); //left
                 vision[1] = (double)LookAt(this.x, this.y - 1, f); //up
                 vision[2] = (double)LookAt(this.x + 1, this.y, f); //right
+                vision[3] = 0;
+                vision[4] = -1;
             }
-            
-            vision[3] = Math.Atan2(y - f.y, x - f.x); // 음식 위치와 이루는 각
-            vision[4] = (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
 
-            if (tails.Count > 0)
-            {
-                vision[5] = Math.Atan2(y - tails.Last().Y, x - tails.Last().X); // 마지막 꼬리와 이루는 각
-                vision[6] = (1 / (Vector2.Distance(new Vector2(tails.Last().X, tails.Last().Y), new Vector2(x, y)) + 1)); //마지막꼬리와의 거리
-            }
-            else
-            {
-                vision[5] = 0;
-                vision[6] = 0;
-            }
+            vision[5] = Math.Atan2(y - f.y, x - f.x); // 음식 위치와 이루는 각
+            vision[6] =  (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
 
             double[] direction = brain.Predict(vision);
             int k = Array.IndexOf(direction, direction.Max());
@@ -430,13 +436,13 @@ namespace Snake
                 return 1.0;
             }
 
-            return 0;
+            return 0.0;
         }
 
         public void CalcFitness()
         {
             //꼬리 가중치 + 생명력 가중치
-            fitness = Math.Pow(this.tails.Count + nScore + 1, 2.0) + life;
+            fitness = Math.Pow(this.tails.Count + 1, 3.0) + life + nScore;
 
             double[] output = brain.Predict(vision);
             

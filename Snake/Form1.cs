@@ -228,7 +228,7 @@ namespace Snake
 
         private void btnApplyBestSnake_Click(object sender, EventArgs e)
         {
-            if (pop.bestSnake == null)
+            if (pop == null || pop.bestSnake == null)
             {
                 MessageBox.Show("아직 없습니다.");
                 return;
