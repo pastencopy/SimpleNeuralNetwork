@@ -179,8 +179,6 @@ namespace Snake
                 g.Clear(Color.White);
             }
 
-            this.Text = string.Format("Best Score : {0},  Fit:{1:0.000000000}    Gen : {2}  ", pop.bestScore, pop.latestFitness, pop.generation);
-
             for (int i = 0; i < trackSkip.Value; i++)
             {
                 snake.Forward();
@@ -218,6 +216,15 @@ namespace Snake
             if (chkbxShowGraphic.Checked == true)
             {
                 picCanvas.CreateGraphics().DrawImageUnscaled(drawImage, 0, 0);
+            }
+
+            if (chkBestSnake.Checked == true && snake != null)
+            {
+                this.Text = string.Format("Current Score : {0} [Now Best Snake PLAY]", snake.nScore);
+            }
+            else
+            {
+                this.Text = string.Format("Best Score : {0},  Fit:{1:0.000000000}    Gen : {2}  ", pop.bestScore, pop.latestFitness, pop.generation);
             }
         }
 
