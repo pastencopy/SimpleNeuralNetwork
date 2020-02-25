@@ -2,16 +2,21 @@
 
 
 ![Simple Rocket](screenshot_simplerocket.png)
+
 Simple Rocket(Genetic Algorithm)
 
 ![xor train](screenshot_xor.png)
+
 XOR Train (Simple Neural Train)
 
 ![guess number](screenshot_guessnumber.png)
+
 Guess Number (Simple Neural Train by MNST Dataset)
 
 ![snake game](screenshot_snake.png)
+
 Snake Game (Genetic + Neural Network)
+
 
 
 
