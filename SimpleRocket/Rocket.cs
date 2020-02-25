@@ -15,7 +15,7 @@ namespace SimpleRocket
 
         public DNA dna;
 
-        public double size = 10;
+        public float size = 10;
         public float fitness = 0.0F; //피트니스 수치
 
         double maxSpeed = 20.0; //움직이는 속도 최대값
@@ -101,8 +101,15 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
-            //g.DrawString(this.name, System.Drawing.SystemFonts.DefaultFont, Brushes.Blue, this.pos.X, this.pos.Y);
-            g.DrawEllipse(Pens.Black, (float)this.pos.X, (float)this.pos.Y, (float)this.size, (float)this.size);
+            //g.DrawEllipse(Pens.Black, (float)this.pos.X, (float)this.pos.Y, (float)this.size, (float)this.size);
+
+            int x = (int)(this.pos.X - (int)(size / 2));
+            int y = (int)(this.pos.Y - (int)(size / 2));
+
+            Vector2 dir = Vector2.Normalize(vel);
+
+            g.DrawLine(Pens.Black, x, y, x + (size / 2) , y + (size / 2));
+            g.DrawLine(Pens.Black, x, y, x - (size / 2) , y + (size / 2));
         }
 
     }

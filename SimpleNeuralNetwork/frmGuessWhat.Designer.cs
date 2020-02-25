@@ -91,7 +91,7 @@
             this.txtTraingDataCount.Name = "txtTraingDataCount";
             this.txtTraingDataCount.Size = new System.Drawing.Size(122, 21);
             this.txtTraingDataCount.TabIndex = 4;
-            this.txtTraingDataCount.Text = "5000";
+            this.txtTraingDataCount.Text = "10000";
             // 
             // label1
             // 
