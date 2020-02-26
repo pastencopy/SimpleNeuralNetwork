@@ -9,7 +9,7 @@ namespace Snake
 {
     class Food
     {
-        public const int SIZE = 20;
+        public const int SIZE = 10;
 
         public int x;
         public int y;

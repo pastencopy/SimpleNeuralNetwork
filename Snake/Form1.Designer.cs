@@ -41,11 +41,11 @@
             this.btnApplyBestSnake = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.chkbxShowVision = new System.Windows.Forms.CheckBox();
             this.chkbxShowGraphic = new System.Windows.Forms.CheckBox();
+            this.chkbxShowVision = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackSkip)).BeginInit();
@@ -55,9 +55,9 @@
             // 
             // picCanvas
             // 
-            this.picCanvas.Location = new System.Drawing.Point(37, 43);
+            this.picCanvas.Location = new System.Drawing.Point(12, 12);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(440, 440);
+            this.picCanvas.Size = new System.Drawing.Size(500, 500);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
             this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
@@ -171,44 +171,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "유전 알고리즘 + 신경망";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 285);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 12);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "진행속도:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(32, 242);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 12);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "처리량:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 72);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(242, 132);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "세대별 100 개체\r\n\r\n생명 200\r\n\r\n음식습득시 +200\r\n\r\n변이율 10%\r\n\r\nFitness = 꼬리길이 + 살아남은 시간 에 비례\r\n\r" +
-    "\n자식세대 = 최고부모(50%) + 다른부모(50%)";
-            // 
-            // chkbxShowVision
-            // 
-            this.chkbxShowVision.AutoSize = true;
-            this.chkbxShowVision.Location = new System.Drawing.Point(22, 31);
-            this.chkbxShowVision.Name = "chkbxShowVision";
-            this.chkbxShowVision.Size = new System.Drawing.Size(104, 16);
-            this.chkbxShowVision.TabIndex = 11;
-            this.chkbxShowVision.Text = "시야 정보 보기";
-            this.chkbxShowVision.UseVisualStyleBackColor = true;
-            // 
             // chkbxShowGraphic
             // 
             this.chkbxShowGraphic.AutoSize = true;
@@ -220,6 +182,44 @@
             this.chkbxShowGraphic.TabIndex = 12;
             this.chkbxShowGraphic.Text = "그래픽 그리기";
             this.chkbxShowGraphic.UseVisualStyleBackColor = true;
+            // 
+            // chkbxShowVision
+            // 
+            this.chkbxShowVision.AutoSize = true;
+            this.chkbxShowVision.Location = new System.Drawing.Point(22, 31);
+            this.chkbxShowVision.Name = "chkbxShowVision";
+            this.chkbxShowVision.Size = new System.Drawing.Size(104, 16);
+            this.chkbxShowVision.TabIndex = 11;
+            this.chkbxShowVision.Text = "시야 정보 보기";
+            this.chkbxShowVision.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 72);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(242, 132);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "세대별 100 개체\r\n\r\n생명 200\r\n\r\n음식습득시 +200\r\n\r\n변이율 10%\r\n\r\nFitness = 꼬리길이 + 살아남은 시간 에 비례\r\n\r" +
+    "\n자식세대 = 최고부모(50%) + 다른부모(50%)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(32, 242);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(45, 12);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "처리량:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 285);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 12);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "진행속도:";
             // 
             // Form1
             // 

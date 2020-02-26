@@ -11,7 +11,7 @@ namespace Snake
 {
     class Snake
     {
-        public const int SIZE = 20;
+        public const int SIZE = 10;
         public const int LIFE = 200;
         public enum DIRECTION
         {
@@ -302,7 +302,7 @@ namespace Snake
             g.DrawLine(Pens.Red, (x + front.X) * SIZE + (SIZE / 2), (y + front.Y) * SIZE + (SIZE / 2), center.X, center.Y);
         }
 
-        //NeuralNetwork Moving
+
         public void Think(Food f)
         {
             // 현재 진행중인 방향의 상좌우의 목표물을 확인하여 결정
@@ -366,7 +366,7 @@ namespace Snake
             }
 
             vision[5] = Math.Atan2(y - f.y, x - f.x); // 음식 위치와 이루는 각
-            vision[6] =  (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
+            vision[6] = (1 / (Vector2.Distance(new Vector2(f.x, f.y), new Vector2(x, y)) + 1)); //음식과의 거리
 
             double[] direction = brain.Predict(vision);
             int k = Array.IndexOf(direction, direction.Max());
