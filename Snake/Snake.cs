@@ -11,7 +11,7 @@ namespace Snake
 {
     class Snake
     {
-        public const int SIZE = 10;
+        public const int SIZE = 15;
         public const int LIFE = 200;
         public enum DIRECTION
         {

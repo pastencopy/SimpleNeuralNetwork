@@ -57,7 +57,7 @@
             // 
             this.picCanvas.Location = new System.Drawing.Point(12, 12);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(500, 500);
+            this.picCanvas.Size = new System.Drawing.Size(495, 495);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
             this.picCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.picCanvas_Paint);
