@@ -183,7 +183,7 @@ namespace NeuralNetworkLibrary
 
         public NeuralNetwork Crossover(NeuralNetwork other)
         {
-            //other과 50% 확률로 바꾼다.
+            //50% 확률 교차한다.
             this.weights_ih.map((v, i, j) =>
             {
                 return (RandomGaussian.NextDouble() < 0.5) ? other.weights_ih.data[i,j] : v;
