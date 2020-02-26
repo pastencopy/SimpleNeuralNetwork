@@ -104,6 +104,15 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
+            //   기준 위치
+            //
+            //   Left
+            //
+            //   ▷ ---> dir
+            //
+            //   right
+            //
+            
             Vector2 center = new Vector2(this.pos.X + (size / 2), this.pos.Y + (size / 2));
             Vector2 dir = Vector2.Normalize(vel);
             Vector2 left = new Vector2(-size, size/2);
@@ -111,10 +120,12 @@ namespace SimpleRocket
 
             left = center + Vector2D.RotateFromDirection(left, dir);
             right = center + Vector2D.RotateFromDirection(right, dir);
+
+            Pen pen = new Pen(Color.Black, 1.6F);
        
-            g.DrawLine(Pens.Black, center.X, center.Y, left.X,left.Y);
-            g.DrawLine(Pens.Black, center.X, center.Y, right.X, right.Y);
-            g.DrawLine(Pens.Black, left.X, left.Y, right.X, right.Y);
+            g.DrawLine(pen, center.X, center.Y, left.X,left.Y);
+            g.DrawLine(pen, center.X, center.Y, right.X, right.Y);
+            g.DrawLine(pen, left.X, left.Y, right.X, right.Y);
         }
 
     }
