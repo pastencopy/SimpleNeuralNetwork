@@ -37,5 +37,21 @@ namespace NeuralNetworkLibrary
             return result;
 
         }
+
+        public static Vector2 RotateFromDirection(Vector2 v, Vector2 direction)
+        {
+            Vector2 result = new Vector2();
+
+            /**
+             *  [ cos  -sin ] [x]
+             *  [ sin   cos ] [y]
+             * */
+
+            result.X = (float)(direction.X * v.X - direction.Y * v.Y);
+            result.Y = (float)(direction.Y * v.X + direction.X * v.Y);
+
+            return result;
+
+        }
     }
 }

@@ -7,6 +7,8 @@ using System.Windows;
 using System.Drawing;
 using System.Numerics;
 
+using NeuralNetworkLibrary;
+
 namespace SimpleRocket
 {   class Rocket
     {
@@ -30,8 +32,9 @@ namespace SimpleRocket
         private void init(string name, float x, float y)
         {
             this.name = name;
-            this.pos.X = x;
-            this.pos.Y = y;
+            this.pos = new Vector2(x, y);
+            this.vel = new Vector2(0, 0);
+            this.accel = new Vector2(0, 0);
         }
         public Rocket(string name, float x, float y, int dnaCount)
         {
@@ -101,15 +104,17 @@ namespace SimpleRocket
 
         public void Draw(Graphics g)
         {
-            //g.DrawEllipse(Pens.Black, (float)this.pos.X, (float)this.pos.Y, (float)this.size, (float)this.size);
-
-            int x = (int)(this.pos.X - (int)(size / 2));
-            int y = (int)(this.pos.Y - (int)(size / 2));
-
+            Vector2 center = new Vector2(this.pos.X + (size / 2), this.pos.Y + (size / 2));
             Vector2 dir = Vector2.Normalize(vel);
+            Vector2 left = new Vector2(-size, size/2);
+            Vector2 right = new Vector2(-size, -size/2);
 
-            g.DrawLine(Pens.Black, x, y, x + (size / 2) , y + (size / 2));
-            g.DrawLine(Pens.Black, x, y, x - (size / 2) , y + (size / 2));
+            left = center + Vector2D.RotateFromDirection(left, dir);
+            right = center + Vector2D.RotateFromDirection(right, dir);
+       
+            g.DrawLine(Pens.Black, center.X, center.Y, left.X,left.Y);
+            g.DrawLine(Pens.Black, center.X, center.Y, right.X, right.Y);
+            g.DrawLine(Pens.Black, left.X, left.Y, right.X, right.Y);
         }
 
     }
